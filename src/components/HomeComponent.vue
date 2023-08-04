@@ -14,8 +14,9 @@
         <h3 class="event-name">{{ event.event_name }}</h3>
         <p class="event-description">{{ event.description }}</p>
         <div class="event-details">
-          <p><strong>Date:</strong> {{ event.start_date }} to {{ event.end_date }}</p>
+          <p><strong>Date:</strong> {{ event.start_date }} __ {{ event.end_date }}</p>
           <p><strong>Audience:</strong> {{ event.audience_type }}</p>
+          <p><strong>Guest:</strong> {{ event.guest }}</p> 
           <p><strong>Status:</strong> {{ event.status === 0 ? 'Inactive' : 'Active' }}</p>
           <p><strong>Place:</strong> {{ event.place.place_name }}</p>
         </div>
@@ -52,7 +53,7 @@ export default {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer mwBBgizTi82Gdz4Sp4AnoYXfJ186Xzl9N6e6TDWfAO0c8uY4cvnmuunEntSJJ8S8",
+          "Authorization": "Bearer O8kmivSQPb6aYQvsS0VK6iXeMungTRkZll2Dl1hgZ47EvaaEYAx9fsBCir62nBuz",
         },
       })
         .then((resp) => resp.json())
