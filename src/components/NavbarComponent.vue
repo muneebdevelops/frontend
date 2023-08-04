@@ -19,7 +19,7 @@ export default {
 <style>
 .text-style {
   font-size: 30px !important;
-  font-family: fantasy !important;
+  font-family: sans-serif !important;
   color: navy !important;
 
 
