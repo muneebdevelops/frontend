@@ -4,7 +4,7 @@
       <h2>{{ place.place_name }}</h2>
       <p><strong>Description:</strong> {{ place.description }}</p>
       <p><strong>Audience Capacity:</strong> {{ place.audience_capacity }}</p>
-      <p><strong>Status:</strong> {{ place.status }}</p>
+      <p><strong>Status:</strong> {{  place.status === 0 ? 'Inactive' : 'Available' }}</p>
       <p><strong>Location:</strong> {{ place.latitude }}, {{ place.longitude }}</p>
       <p><strong>Air Conditioner:</strong> {{ place.air_conditioner }}</p>
       <p><strong>Projector:</strong> {{ place.projector }}</p>
@@ -122,7 +122,7 @@ export default {
       .then((resp) => resp.json())
       .then((data) => {
         console.log(data);
-        this.placeData = data.data;
+        this.getAllPlaces();
       })
       .catch((error) => {
         console.log(error);
@@ -141,7 +141,7 @@ export default {
 /* Add your preferred styling here */
 .place-details {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap;  
   justify-content: space-around;
 }
 
