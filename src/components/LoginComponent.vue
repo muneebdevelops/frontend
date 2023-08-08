@@ -1,14 +1,15 @@
 <template>
 <div class="login">
-    <form id="login_form">
+    <h2>Login</h2>
+    <form id="login_form" @submit.prevent="push">
         <label>Email</label>
-        <input type="email" required v-model="login.email">
+        <input type="email" required v-model="email">
         <label>Password</label>
-        <input type="password" required v-model="login.password">
-        <button type="button" class="btn btn-primary" v-on:click="push">Submit</button>
+        <input type="password" required v-model="password">
+        <button type="submit" class="btn btn-primary" v-on:click="push">Submit</button>
 
     </form>
-    {{ returned_token }}
+    {{ token_value }}
 </div>
 </template>
 <script>
@@ -17,35 +18,33 @@
 export default {
     data() {
         return {
-            login:{
-                email:'',
-                password:''
-            }
+            
+            email:'',
+            password:''
+            
             ,
-            returned_token:{}
+            returned_token:[],
+            token_value:""
         }
     },
     methods:{
-        localstr(){
-            localStorage.setItem('email',this.email)
-            localStorage.setItem('password',this.password)
-        },
 
-        push(){
-
-            
-
-            const requestOptions = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(this.login)
+        async push(){
+  
+            const request = {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({"email":this.email,"password":this.password})
             };
-            
-            fetch("http:127.0.0.1/login", requestOptions)
-            .then(response => response.json())
-            .then(data => (this.returned_token = data.data.token));
-        }   
+            fetch('http://127.0.0.1:5000/login', request)
+                .then(response => response.json())
+                .then(data => (this.returned_token=data["data"]));
+                localStorage.setItem('token',this.returned_token)
+                this.token_value=localStorage.getItem('token')
+        }
+
     }
+    
     
 }
 </script>

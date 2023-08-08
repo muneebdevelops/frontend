@@ -1,4 +1,5 @@
 <template>
+  <div id="token"><label>{{ token }}</label></div>
   <div class="event-list">
     <h2>Event List</h2>
     <div class="filters">
@@ -47,6 +48,7 @@ export default {
       allEvents: [],
       startDate: "",
       endDate: "",
+      token:""
     };
   },
   methods: {
@@ -75,7 +77,7 @@ export default {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-           "Authorization": "Bearer O8kmivSQPb6aYQvsS0VK6iXeMungTRkZll2Dl1hgZ47EvaaEYAx9fsBCir62nBuz",
+           "Authorization": "Bearer"+" "+this.token,
         },
       })
         .then((resp) => resp.json())
@@ -99,6 +101,7 @@ export default {
     },
   },
   created() {
+    this.token = localStorage.getItem('token')
     this.getAllEvents();
   },
 };

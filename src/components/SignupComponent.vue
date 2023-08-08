@@ -1,8 +1,9 @@
 <template>
   <div>
-    <h2>Signup</h2>
+    
     <form @submit.prevent="signup">
-      <label for="username">Username:</label>
+      <h2>Signup</h2>
+      <label for="username">Name:</label>
       <input type="text" v-model="username" required />
       
       <label for="email">Email:</label>

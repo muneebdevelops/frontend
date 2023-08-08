@@ -1,4 +1,5 @@
 <template>
+  <div id="token"><label>{{ token }}</label></div>
   <div class="place-details">
     <div v-for="place in placeData" :key="place.id" class="place-card">
       <h2>{{ place.place_name }}</h2>
@@ -64,6 +65,7 @@ export default {
         audience_type: "",
         place_id: null,
       },
+      token:""
     };
   },
   methods: {
@@ -74,7 +76,7 @@ export default {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer O8kmivSQPb6aYQvsS0VK6iXeMungTRkZll2Dl1hgZ47EvaaEYAx9fsBCir62nBuz",
+          "Authorization": "Bearer"+" "+this.token,
         },
       })
       .then((resp) => resp.json())
@@ -115,7 +117,7 @@ export default {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer O8kmivSQPb6aYQvsS0VK6iXeMungTRkZll2Dl1hgZ47EvaaEYAx9fsBCir62nBuz",
+          "Authorization": "Bearer"+" "+this.token,
         },
         body: JSON.stringify(requestData),
       })
@@ -132,6 +134,7 @@ export default {
     },
   },
   created() {
+    this.token=localStorage.getItem('token')
     this.getAllPlaces();
   },
 };
