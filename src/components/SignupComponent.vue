@@ -11,6 +11,9 @@
       <label for="password">Password:</label>
       <input type="password" v-model="password" required />
 
+      <label for="is_admin">Admin</label>
+      <input type="checkbox" v-model="is_admin" />
+
       <button type="submit">Sign Up</button>
     </form>
   </div>
@@ -22,7 +25,8 @@ export default {
     return {
       username: '',
       email: '',
-      password: ''
+      password: '',
+      is_admin:false
     };
   },
   methods: {
@@ -30,7 +34,8 @@ export default {
       const userData = {
         name: this.username,
         email: this.email,
-        password: this.password
+        password: this.password,
+        is_admin: this.is_admin
       };
 
       try {
