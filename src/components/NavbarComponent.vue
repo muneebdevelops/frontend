@@ -5,6 +5,7 @@
     <div class="navbar-nav ms-auto">
       <router-link class="btn btn-primary" to="/">Home</router-link>
       <router-link class="btn btn-success" to="/create">Create Event</router-link>
+      <router-link class="btn btn-success" to="/login">Login</router-link>
     </div>
   </div>
 </nav>
