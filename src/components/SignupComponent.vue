@@ -14,7 +14,8 @@
       <label for="is_admin">Admin</label>
       <input type="checkbox" v-model="is_admin" />
 
-      <button type="submit">Sign Up</button>
+      <button type="submit" class="btn btn-primary">Submit</button>
+
     </form>
   </div>
 </template>
@@ -64,5 +65,17 @@ export default {
 </script>
 
 <style scoped>
-/* Your component's styles here */
+form{
+  font-family: sans-serif;
+  width: 300px;
+  margin: 20px;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s;
+}
+button{
+  display: block;
+}
 </style>
