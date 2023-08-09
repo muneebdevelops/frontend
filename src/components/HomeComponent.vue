@@ -1,5 +1,5 @@
 <template>
-  <div id="token"><label>{{ token }}</label></div>
+  <div id="token"><label>welcome, {{ user }}</label></div>
   <div class="event-list">
     <h2><b>ALL EVENTS</b></h2>
     <br>
@@ -50,7 +50,9 @@ export default {
       allEvents: [],
       startDate: "",
       endDate: "",
-      token:""
+      token: 'user',
+      user:'user'
+      
     };
   },
   methods: {
@@ -80,7 +82,7 @@ export default {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-           "Authorization": "Bearer O8kmivSQPb6aYQvsS0VK6iXeMungTRkZll2Dl1hgZ47EvaaEYAx9fsBCir62nBuz",
+           "Authorization": "Bearer yTyEipnZL44EXxEesoaOahBIdPo7GTVD8yL0GuaWK3nf6gqPYodjC56nehC6CXAX",
         },
       })
         .then((resp) => resp.json())
@@ -102,11 +104,42 @@ export default {
       const day = `${date.getDate()}`.padStart(2, "0");
       return `${year}-${month}-${day}`;
     },
+
+    session_add(data){
+        this.user = data['name'];
+        const val_admin = data['is_admin']
+        sessionStorage.setItem('admin',val_admin);
+      },
+
+    getUser(token){
+      const id_param=token
+      const request = {
+              method: "GET",
+              headers: { "Content-Type": "application/json" },
+          };
+      fetch('http://127.0.0.1:5000/user?'+ new URLSearchParams({id:id_param}), request)
+        .then(response => response.json())
+        .then(data => (this.session_add(data["data"])))
+    },
+
   },
   created() {
-    this.token = localStorage.getItem('token')
     this.getAllEvents();
+    
+    
   },
+
+  mounted(){
+    if(sessionStorage.id){
+      this.token = sessionStorage.id
+      this.getUser(sessionStorage.id);
+    }
+    else{
+      this.token = 'user'
+    }
+  }
+  
+
 };
 </script>
 

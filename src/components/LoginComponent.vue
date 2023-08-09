@@ -9,7 +9,7 @@
         <input class="login-input" type="password" required v-model="password">
         <button type="submit" class="btn btn-primary login-btn" v-on:click="push">Submit</button>
       </form>
-      <p class="token">{{ token_value }}</p>
+      <p class="token">{{ returned_token }}</p>
       <p class="signup-link">Don't have an account? <router-link to="/signup">Sign up</router-link></p>
     </div>
   </div>
@@ -25,30 +25,40 @@ export default {
             password:''
             
             ,
-            returned_token:[],
+            returned_token:{},
             token_value:""
         }
     },
     methods:{
 
-        async push(){
-  
-            const request = {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({"email":this.email,"password":this.password})
-            };
-            fetch('http://127.0.0.1:5000/login', request)
-                .then(response => response.json())
-                .then(data => (this.returned_token=data["data"] ? this.returned_token=data["data"] : this.$router.push('/login')));
+      session_add(data){
+        const val_token = data['token'];
+        const val_id = data['id']
+        sessionStorage.setItem('token',val_token);
+        sessionStorage.setItem('id',val_id)
+        this.$router.push('/')
+      },
 
-                localStorage.setItem('token',this.returned_token)
-                this.token_value=localStorage.getItem('token')
-                this.$router.push('/')
-          
+      
+
+      async push(){
+
+          const request = {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({"email":this.email,"password":this.password})
+          };
+          fetch('http://127.0.0.1:5000/login', request)
+              .then(response => response.json())
+              .then(data => (this.session_add(data["data"])))
+              .catch(data => (this.$router.push('/login') && console.log(data["data"])));
+              
+
+              
+        
+              
                 
-                 
-        }
+      }
 
     }
     
