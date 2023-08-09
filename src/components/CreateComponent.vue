@@ -65,7 +65,7 @@ export default {
         audience_type: "",
         place_id: null,
       },
-      token:'user',
+      token: sessionStorage.token,
       user:'user'
     };
   },
@@ -78,7 +78,7 @@ export default {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer yTyEipnZL44EXxEesoaOahBIdPo7GTVD8yL0GuaWK3nf6gqPYodjC56nehC6CXAX",
+          "Authorization": "Bearer"+" "+this.token,
         },
       })
       .then((resp) => resp.json())
@@ -119,7 +119,7 @@ export default {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer yTyEipnZL44EXxEesoaOahBIdPo7GTVD8yL0GuaWK3nf6gqPYodjC56nehC6CXAX",
+          "Authorization": "Bearer"+" "+this.token,
         },
         body: JSON.stringify(requestData),
       })
@@ -159,10 +159,9 @@ export default {
 
   mounted(){
     if(sessionStorage.id){
-      this.token = sessionStorage.id
+      this.token = sessionStorage.getItem('token')
       this.getUser(sessionStorage.id);
-    }
-    else{
+    }else{
       this.token = 'user'
     }
   }

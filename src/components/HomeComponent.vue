@@ -50,7 +50,7 @@ export default {
       allEvents: [],
       startDate: "",
       endDate: "",
-      token: 'user',
+      token: sessionStorage.token,
       user:'user'
       
     };
@@ -82,7 +82,7 @@ export default {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-           "Authorization": "Bearer yTyEipnZL44EXxEesoaOahBIdPo7GTVD8yL0GuaWK3nf6gqPYodjC56nehC6CXAX",
+           "Authorization": "Bearer"+" "+this.token,
         },
       })
         .then((resp) => resp.json())
@@ -131,10 +131,9 @@ export default {
 
   mounted(){
     if(sessionStorage.id){
-      this.token = sessionStorage.id
+      this.token = sessionStorage.token
       this.getUser(sessionStorage.id);
-    }
-    else{
+    }else{
       this.token = 'user'
     }
   }

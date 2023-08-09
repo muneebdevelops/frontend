@@ -309,8 +309,7 @@ export default {
     if(sessionStorage.id){
       this.token = sessionStorage.token
       this.getUser(sessionStorage.id);
-    }
-    else{
+    }else{
       this.token = 'user'
     }
   }
