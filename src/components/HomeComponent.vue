@@ -1,7 +1,8 @@
 <template>
   <div id="token"><label>{{ token }}</label></div>
   <div class="event-list">
-    <h2>Event List</h2>
+    <h2><b>ALL EVENTS</b></h2>
+    <br>
     <div class="filters">
       <label for="startDate">Start Date:</label>
       <input type="date" id="startDate" v-model="startDate" @change="filterEvents" />
@@ -9,6 +10,7 @@
       <label for="endDate">End Date:</label>
       <input type="date" id="endDate" v-model="endDate" @change="filterEvents" />
     </div>
+    <br>
 
     <div class="events">
       <div v-for="event in allEvents" :key="event.id" class="event-card">
@@ -19,7 +21,7 @@
           <p><strong>Time:</strong> {{ formatMyTime(event.start_date) }} _ {{ formatMyTime(event.end_date) }}</p>
           <p><strong>Audience:</strong> {{ event.audience_type }}</p>
           <p><strong>Guest:</strong> {{ event.guest ? event.guest : 'None' }}</p> 
-          <p><strong>Status:</strong> {{ event.status === 0 ? 'Inactive' : 'Active' }}</p>
+          <p><strong>Status:</strong> {{ event.status === 0 ? 'Inactive' : event.status === 2 ? 'Rejected':'Active' }}</p>
           <p><strong>Place:</strong> {{ event.place.place_name }}</p>
         </div>
 
@@ -72,12 +74,13 @@ export default {
       if (this.endDate) {
         apiUrl += `endDate=${this.formatDate(new Date(this.endDate))}&`;
       }
-      apiUrl += "orderByColumn=&order=asc"; 
+      apiUrl += "orderByColumn=&order=asc";
+       
       fetch(apiUrl, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-           "Authorization": "Bearer"+" "+this.token,
+           "Authorization": "Bearer O8kmivSQPb6aYQvsS0VK6iXeMungTRkZll2Dl1hgZ47EvaaEYAx9fsBCir62nBuz",
         },
       })
         .then((resp) => resp.json())

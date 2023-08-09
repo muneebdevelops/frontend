@@ -1,22 +1,20 @@
 <template>
-  <div>
-    
-    <form @submit.prevent="signup">
-      <h2>Signup</h2>
-      <label for="username">Name:</label>
-      <input type="text" v-model="username" required />
+  <div class="signup-container">
+    <form @submit.prevent="signup" class="signup-form">
+      <h2 class="signup-title">Signup</h2>
+      <label for="username" class="signup-label">Name:</label>
+      <input type="text" v-model="username" required class="signup-input">
       
-      <label for="email">Email:</label>
-      <input type="email" v-model="email" required />
+      <label for="email" class="signup-label">Email:</label>
+      <input type="email" v-model="email" required class="signup-input">
 
-      <label for="password">Password:</label>
-      <input type="password" v-model="password" required />
+      <label for="password" class="signup-label">Password:</label>
+      <input type="password" v-model="password" required class="signup-input">
 
-      <label for="is_admin">Admin</label>
-      <input type="checkbox" v-model="is_admin" />
+      <label for="is_admin" class="signup-label">Admin</label>
+      <input type="checkbox" v-model="is_admin" class="signup-checkbox">
 
-      <button type="submit" class="btn btn-primary">Submit</button>
-
+      <button type="submit" class="btn btn-primary signup-btn">Submit</button>
     </form>
   </div>
 </template>
@@ -66,17 +64,62 @@ export default {
 </script>
 
 <style scoped>
-form{
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #2c3e50; /* Cool background color */
+}
+
+.signup-form {
   font-family: sans-serif;
-  width: 300px;
-  margin: 20px;
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  width: 400px; /* Increased width */
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   transition: box-shadow 0.3s;
 }
-button{
+
+.signup-title {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.signup-label {
+  font-weight: bold;
+  text-transform: capitalize;
   display: block;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.signup-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.signup-checkbox {
+  margin-top: 5px;
+}
+
+.signup-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #3498db;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.signup-btn:hover {
+  background-color: #2980b9;
 }
 </style>

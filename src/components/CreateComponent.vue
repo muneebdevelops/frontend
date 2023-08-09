@@ -71,12 +71,13 @@ export default {
   methods: {
     getAllPlaces() {
       let apiUrl = 'http://127.0.0.1:5000/get_places';
+      console.log(this.token)
 
       fetch(apiUrl, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer"+" "+this.token,
+          "Authorization": "Bearer O8kmivSQPb6aYQvsS0VK6iXeMungTRkZll2Dl1hgZ47EvaaEYAx9fsBCir62nBuz",
         },
       })
       .then((resp) => resp.json())
@@ -117,7 +118,7 @@ export default {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer"+" "+this.token,
+          "Authorization": "Bearer O8kmivSQPb6aYQvsS0VK6iXeMungTRkZll2Dl1hgZ47EvaaEYAx9fsBCir62nBuz",
         },
         body: JSON.stringify(requestData),
       })

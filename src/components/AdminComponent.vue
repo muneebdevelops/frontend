@@ -1,6 +1,8 @@
 <template>
   <div>
     <button @click="showAddPlaceModal">Add Place</button>
+    <br>
+    <br>
     <div class="tabs">
       <button
         v-for="(tab, index) in tabs"
@@ -104,15 +106,29 @@
         </tbody>
       </table>
     </div>
-    <!-- Add Place Modal -->
-    <div v-if="showModal" class="modal">
-      <div class="modal-content">
-        <h2>Add Place</h2>
-        <input v-model="newPlaceName" placeholder="Place Name" />
-        <button @click="addPlace">Add</button>
-        <button @click="closeAddPlaceModal">Cancel</button>
-      </div>
+  <!-- Add Place Modal -->
+  <div v-if="showModal" class="modal">
+    <div class="modal-content">
+      <h2>Add Place</h2>
+      <input v-model="newPlaceName" class="input-field" placeholder="Place Name" />
+      <input v-model="newPlaceDescription" class="input-field" placeholder="Place Description" />
+      <input v-model="newPlaceCapacity" class="input-field" type="number" placeholder="Audience Capacity" />
+      <label class="checkbox-label">
+        <input v-model="newPlaceAirConditioner" type="checkbox" /> Air Conditioner
+      </label>
+      <label class="checkbox-label">
+        <input v-model="newPlaceProjector" type="checkbox" /> Projector
+      </label>
+      <label class="checkbox-label">
+        <input v-model="newPlaceSoundSystem" type="checkbox" /> Sound System
+      </label>
+      <input v-model="newPlaceLatitude" class="input-field" type="number" step="0.0001" placeholder="Latitude" />
+      <input v-model="newPlaceLongitude" class="input-field" type="number" step="0.0001" placeholder="Longitude" />
+      <button @click="addPlace" class="action-button">Add</button>
+      <br>
+      <button @click="closeAddPlaceModal" class="action-button">Cancel</button>
     </div>
+  </div>
   </div>
 </template>
 
@@ -137,7 +153,14 @@ export default {
         rejected: []
       },
       showModal: false,
-      newPlaceName: ""
+      newPlaceName: '',
+      newPlaceDescription: '',
+      newPlaceCapacity: null,
+      newPlaceAirConditioner: false,
+      newPlaceProjector: false,
+      newPlaceSoundSystem: false,
+      newPlaceLatitude: null,
+      newPlaceLongitude: null,
     };
   },
   methods: {
@@ -213,18 +236,45 @@ export default {
         });
       console.log(placeId)
     },
-    // showAddPlaceModal() {
-    //   this.showModal = true;
-    // },
-    // closeAddPlaceModal() {
-    //   this.showModal = false;
-    //   this.newPlaceName = "";
-    // },
-    // addPlace() {
-    //   // Call your API to add a new place and update the UI accordingly
-    //   console.log(placeId)
-    //   this.closeAddPlaceModal();
-    // }
+    showAddPlaceModal() {
+      this.showModal = true;
+    },
+    closeAddPlaceModal() {
+      this.showModal = false;
+      this.newPlaceName = "";
+    },
+    addPlace() {
+      // Call your API to add a new place and update the UI accordingly
+      let url = `http://127.0.0.1:5000/admin/place`
+      const newPlace = {
+        place_name: this.newPlaceName,
+        description: this.newPlaceDescription,
+        audience_capacity: this.newPlaceCapacity,
+        air_conditioner: this.newPlaceAirConditioner,
+        projector: this.newPlaceProjector,
+        sound_system: this.newPlaceSoundSystem,
+        latitude: this.newPlaceLatitude,
+        longitude: this.newPlaceLongitude,
+      };
+         fetch(url, {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+           "Authorization": "Bearer O8kmivSQPb6aYQvsS0VK6iXeMungTRkZll2Dl1hgZ47EvaaEYAx9fsBCir62nBuz",
+            },
+            body: JSON.stringify(newPlace),
+        })
+        .then((resp) => resp.json())
+        .then((data) => {
+            console.log(data);
+             this.$router.push('/admin'); 
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+      this.closeAddPlaceModal();
+    }
   },
   created() {
     this.fetchPlaces(this.currentTab);
@@ -239,9 +289,15 @@ export default {
 }
 
 .tabs button {
-  border: 1px solid #ccc;
+  width: 300px; 
+  margin-left: 10%;
+  align-self: center;
+  border: 2px solid #ccc;
   padding: 5px 10px;
+  border-radius: 5px;
   cursor: pointer;
+  position: relative;
+  padding: 10px
 }
 
 .tabs button.active {
@@ -291,5 +347,53 @@ export default {
   display: flex;
   justify-content: space-between;
 }
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.input-field {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.checkbox-label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.action-button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.action-button + .action-button {
+  margin-left: 8px;
+}
 </style>
+

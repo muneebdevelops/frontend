@@ -1,16 +1,18 @@
 <template>
-<div class="login">
-    <h2>Login</h2>
-    <form id="login_form" @submit.prevent="push">
-        <label>Email</label>
-        <input type="email" required v-model="email">
-        <label>Password</label>
-        <input type="password" required v-model="password">
-        <button type="submit" class="btn btn-primary" v-on:click="push">Submit</button>
-
-    </form>
-    {{ token_value }}
-</div>
+  <div class="login-container">
+    <div class="login">
+      <h2 class="login-title">Login</h2>
+      <form id="login_form" @submit.prevent="login">
+        <label class="login-label">Email</label>
+        <input class="login-input" type="email" required v-model="email">
+        <label class="login-label">Password</label>
+        <input class="login-input" type="password" required v-model="password">
+        <button type="submit" class="btn btn-primary login-btn" v-on:click="push">Submit</button>
+      </form>
+      <p class="token">{{ token_value }}</p>
+      <p class="signup-link">Don't have an account? <router-link to="/signup">Sign up</router-link></p>
+    </div>
+  </div>
 </template>
 <script>
 
@@ -38,9 +40,14 @@ export default {
             };
             fetch('http://127.0.0.1:5000/login', request)
                 .then(response => response.json())
-                .then(data => (this.returned_token=data["data"]));
+                .then(data => (this.returned_token=data["data"] ? this.returned_token=data["data"] : this.$router.push('/login')));
+
                 localStorage.setItem('token',this.returned_token)
                 this.token_value=localStorage.getItem('token')
+                this.$router.push('/')
+          
+                
+                 
         }
 
     }
@@ -49,22 +56,74 @@ export default {
 }
 </script>
 <style>
-.login{
-    font-family: sans-serif;
-  width: 300px;
-  margin: 20px;
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #2c3e50; /* Cool background color */
+}
+
+.login {
+  font-family: sans-serif;
+  width: 400px; /* Increased width */
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   transition: box-shadow 0.3s;
 }
-label{
-    font-weight: bold;
-    text-transform: capitalize;
-    text-align: left;
+
+.login-title {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #333;
 }
-button{
-    margin-top: 10px;
+
+.login-label {
+  font-weight: bold;
+  text-transform: capitalize;
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.login-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #3498db;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+  background-color: #2980b9;
+}
+
+.token {
+  margin-top: 15px;
+  text-align: center;
+  color: #888;
+}
+
+.signup-link {
+  text-align: center;
+  margin-top: 15px;
+  color: #333;
+}
+.signup-link a {
+  color: #3498db;
+  text-decoration: underline;
 }
 </style>
