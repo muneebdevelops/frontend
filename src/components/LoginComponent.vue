@@ -39,6 +39,11 @@ export default {
         this.$router.push('/')
       },
 
+      err_handle(data){
+        console.log(data)
+        this.$router.go('/login')
+      },
+
       
 
       async push(){
@@ -51,7 +56,7 @@ export default {
           fetch('http://127.0.0.1:5000/login', request)
               .then(response => response.json())
               .then(data => (this.session_add(data["data"])))
-              .catch(data => (this.$router.push('/login') && console.log(data["data"])));
+              .catch(data => (this.err_handle(data)));
               
 
               
