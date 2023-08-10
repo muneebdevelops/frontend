@@ -12,7 +12,7 @@
       <input type="password" v-model="password" required class="signup-input">
 
       <label for="is_admin" class="signup-label">Admin</label>
-      <input type="checkbox" v-model="is_admin" class="signup-checkbox">
+      <input type="checkbox" v-model="default_is_admin" class="signup-checkbox" :disabled="is_admin==false">
 
       <button type="submit" class="btn btn-primary signup-btn">Submit</button>
     </form>
@@ -26,10 +26,12 @@ export default {
       username: '',
       email: '',
       password: '',
+      default_is_admin:false,
       is_admin:false
     };
   },
   methods: {
+
     async signup() {
       const userData = {
         name: this.username,
@@ -59,7 +61,13 @@ export default {
         console.error('Error signing up:', error);
       }
     }
+  },
+  mounted(){
+    if(sessionStorage.admin=='true'){
+      this.is_admin=true
+    }
   }
+
 };
 </script>
 
