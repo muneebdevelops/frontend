@@ -311,6 +311,11 @@ export default {
       this.getUser(sessionStorage.id);
     }else{
       this.token = 'user'
+      this.$router.push('/login')
+    }
+    if(sessionStorage.admin=='false'){
+      this.$router.push('/login')
+      alert("Login as Admin")
     }
   }
 

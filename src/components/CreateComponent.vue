@@ -163,6 +163,7 @@ export default {
       this.getUser(sessionStorage.id);
     }else{
       this.token = 'user'
+      this.$router.push('/login')
     }
   }
 
