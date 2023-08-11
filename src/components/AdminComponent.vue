@@ -1,6 +1,7 @@
 <template>
   <div id="token"><label>welcome, {{ user }} - admin: {{ admin }}</label></div>
-  <div>
+  <div id="logout"><button v-show="bool_show_logout" type="button" class="btn btn-secondary" @click="logout">Logout</button></div>
+  <div v-show="admin">
     <button @click="showAddPlaceModal">Add Place</button>
     <br>
     <br>
@@ -33,8 +34,8 @@
             <td>{{ place.event_name }}</td>
             <td>{{ place.description }}</td>
             <td>{{ place.place.place_name }}</td>
-            <td>{{ formatMyDate(place.start_date) }} _ {{formatMyDate(place.end_date) }}</td>
-            <td>{{ formatMyTime(place.start_date) }} _ {{ formatMyTime(place.end_date) }}</td>
+            <td>{{ formatMyDate(place.start_date)}} - {{formatMyDate(place.end_date)}}</td>
+            <td>{{ formatMyTime(place.start_date)}} - {{formatMyTime(place.end_date)}}</td>
             <td>{{ place.audience_type }}</td>
             <td>{{ place.guest ? place.guest : 'None' }}</td>
             <td class="place-buttons">
@@ -65,13 +66,10 @@
             <td>{{ place.event_name }}</td>
             <td>{{ place.description }}</td>
             <td>{{ place.place.place_name }}</td>
-            <td>{{ formatMyDate(place.start_date) }} _ {{formatMyDate(place.end_date) }}</td>
-            <td>{{ formatMyTime(place.start_date) }} _ {{ formatMyTime(place.end_date) }}</td>
+            <td>{{ formatMyDate(place.start_date)}} - {{formatMyDate(place.end_date)}}</td>
+            <td>{{ formatMyTime(place.start_date)}} - {{formatMyTime(place.end_date)}}</td>
             <td>{{ place.audience_type }}</td>
             <td>{{ place.guest ? place.guest : 'None' }}</td>
-            <td class="place-buttons">
-              <button @click="rejectPlace(place.id)">Reject</button>
-            </td>
           </tr>
         </tbody>
       </table>
@@ -95,14 +93,10 @@
             <td>{{ place.event_name }}</td>
             <td>{{ place.description }}</td>
             <td>{{ place.place.place_name }}</td>
-            <td>{{ formatMyDate(place.start_date) }} _ {{formatMyDate(place.end_date) }}</td>
-            <td>{{ formatMyTime(place.start_date) }} _ {{ formatMyTime(place.end_date) }}</td>
+            <td>{{ formatMyDate(place.start_date)}} - {{formatMyDate(place.end_date)}}</td>
+            <td>{{ formatMyTime(place.start_date)}} - {{formatMyTime(place.end_date)}}</td>
             <td>{{ place.audience_type }}</td>
             <td>{{ place.guest ? place.guest : 'None' }}</td>
-            <td class="place-buttons">
-              <button @click="approvePlace(place.id)">Approve</button>
-              <button @click="rejectPlace(place.id)">Reject</button>
-            </td>
           </tr>
         </tbody>
       </table>
@@ -139,7 +133,8 @@ export default {
     return {
       token:'user',
       user:'user',
-      admin:'false',
+      admin:'N/A',
+      bool_show_logout: false,
       tabs: [
         { label: "Pending", status: "pending" },
         { label: "Approved", status: "approved" },
@@ -176,7 +171,9 @@ export default {
       return date.split(' ')[0];
     },
     formatMyTime(date) {
-      return date.split(' ')[1];
+      const ndate = new Date(date).toLocaleTimeString('en-US',{hour12:true})
+      //date.split(' ')[1]
+      return ndate;
     },
     fetchPlaces(status) {
         const statusValue = this.statusMappings[status];
@@ -282,8 +279,8 @@ export default {
 
     session_add(data){
         this.user = data['name'];
-        const val_admin = data['is_admin']
-        this.admin = val_admin
+        sessionStorage.admin = data['is_admin'];
+        this.admin = data['is_admin']
       },
 
     getUser(token){
@@ -297,6 +294,11 @@ export default {
         .then(data => (this.session_add(data["data"])))
     },
 
+    logout(){
+      sessionStorage.clear()
+      this.$router.go('/')
+    }
+
 
 
 
@@ -305,26 +307,30 @@ export default {
     
     this.token = sessionStorage.token
     this.fetchPlaces(this.currentTab);
+    
   },
 
   mounted(){
     if(sessionStorage.id){
       this.token = sessionStorage.token
       this.getUser(sessionStorage.id);
+      this.bool_show_logout=true
+
     }else{
       this.token = 'user'
       this.$router.push('/login')
     }
-    if(sessionStorage.admin=='false'){
-      this.$router.push('/login')
-      alert("Login as Admin")
-    }
-  }
+    
+  },
+
+  
+
+  
 
 
 
 
-};
+}
 </script>
 
 <style>

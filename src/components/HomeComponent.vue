@@ -1,5 +1,6 @@
 <template>
-  <div id="token"><label>welcome, {{ user }}</label></div>
+  <div id="token"><label>welcome, {{ user }} {{ login_reminder }} </label></div>
+  <div id="logout"><button v-show="bool_show_logout" type="button" class="btn btn-secondary" @click="logout">Logout</button></div>
   <div class="event-list">
     <h2><b>ALL EVENTS</b></h2>
     <br>
@@ -51,7 +52,10 @@ export default {
       startDate: "",
       endDate: "",
       token: sessionStorage.token,
-      user:'user'
+      user:'user',
+      admin:'N/A',
+      login_reminder: '',
+      bool_show_logout: false
       
     };
   },
@@ -77,6 +81,7 @@ export default {
         apiUrl += `endDate=${this.formatDate(new Date(this.endDate))}&`;
       }
       apiUrl += "orderByColumn=&order=asc";
+      apiUrl += "&status=1"
        
       fetch(apiUrl, {
         method: "GET",
@@ -108,6 +113,8 @@ export default {
         this.user = data['name'];
         const val_admin = data['is_admin']
         sessionStorage.setItem('admin',val_admin);
+        this.admin=sessionStorage.admin
+
       },
 
     getUser(token){
@@ -121,6 +128,11 @@ export default {
         .then(data => (this.session_add(data["data"])))
     },
 
+    logout(){
+      sessionStorage.clear()
+      this.$router.go('/')
+    }
+
   },
   created() {
     this.getAllEvents();
@@ -132,8 +144,10 @@ export default {
     if(sessionStorage.id){
       this.token = sessionStorage.token
       this.getUser(sessionStorage.id);
+      this.bool_show_logout= true
     }else{
       this.token = 'user'
+      this.login_reminder = '- Please login'
     }
   }
   
@@ -142,6 +156,7 @@ export default {
 </script>
 
 <style>
+
 .event-list {
   font-family: Arial, sans-serif;
   padding: 20px;

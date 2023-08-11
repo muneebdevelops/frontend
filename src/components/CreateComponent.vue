@@ -1,5 +1,6 @@
 <template>
   <div id="token"><label>welcome, {{ user }}</label></div>
+  <div id="logout"><button v-show="bool_show_logout" type="button" class="btn btn-secondary" @click="logout">Logout</button></div>
   <div class="place-details">
     <div v-for="place in placeData" :key="place.id" class="place-card">
       <h2>{{ place.place_name }}</h2>
@@ -28,8 +29,12 @@
     <label for="startDate">Start Date and Time:</label>
     <input type="datetime-local" id="startDate" v-model="eventData.start_date" required>
 
+    {{ eventData.start_date }}
+
     <label for="endDate">End Date and Time:</label>
     <input type="datetime-local" id="endDate" v-model="eventData.end_date" required>
+
+    {{ eventData.end_date }}
 
     <label for="guest">Guest:</label>
     <input type="text" id="guest" v-model="eventData.guest" required>
@@ -59,14 +64,16 @@ export default {
       eventData: {
         event_name: "",
         description: "",
-        start_date: "",
-        end_date: "",
+        start_date: '',
+        end_date: '',
         guest: "",
         audience_type: "",
         place_id: null,
       },
       token: sessionStorage.token,
-      user:'user'
+      user:'user',
+      admin:'N/A',
+      bool_show_logout: false
     };
   },
   methods: {
@@ -102,7 +109,9 @@ export default {
     submitEventRequest() {
        let apiUrl = 'http://127.0.0.1:5000/add_event';
        const formatDate = (date) => {
-          return new Date(date).toISOString().slice(0, 19).replace('T', ' ');
+          const newdate = date+':00'
+          return newdate.replace('T',' ')
+          //return new Date(date).toISOString().slice(0,19).replace('T', ' ');
         };
 
        let requestData = {
@@ -125,6 +134,7 @@ export default {
       })
       .then((resp) => resp.json())
       .then((data) => {
+        alert(data["message"])
         console.log(data);
         this.getAllPlaces();
       })
@@ -139,6 +149,7 @@ export default {
         this.user = data['name'];
         const val_admin = data['is_admin']
         sessionStorage.setItem('admin',val_admin);
+        this.admin = sessionStorage.admin
       },
 
     getUser(token){
@@ -152,6 +163,11 @@ export default {
         .then(data => (this.session_add(data["data"])))
     },
 
+    logout(){
+      sessionStorage.clear()
+      this.$router.push('/login')
+    }
+
   },
   created() {
     this.getAllPlaces();
@@ -161,6 +177,7 @@ export default {
     if(sessionStorage.id){
       this.token = sessionStorage.getItem('token')
       this.getUser(sessionStorage.id);
+      this.bool_show_logout = true
     }else{
       this.token = 'user'
       this.$router.push('/login')

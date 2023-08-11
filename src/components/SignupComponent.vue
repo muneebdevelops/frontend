@@ -11,8 +11,8 @@
       <label for="password" class="signup-label">Password:</label>
       <input type="password" v-model="password" required class="signup-input">
 
-      <label for="is_admin" class="signup-label">Admin</label>
-      <input type="checkbox" v-model="default_is_admin" class="signup-checkbox" :disabled="is_admin==false">
+      <label v-show="is_admin" for="is_admin" class="signup-label">Admin {{ is_admin_disabled_reminder }}</label>
+      <input v-show="is_admin" type="checkbox" v-model="default_is_admin" class="signup-checkbox" :disabled="is_admin==false">
 
       <button type="submit" class="btn btn-primary signup-btn">Submit</button>
     </form>
@@ -27,7 +27,8 @@ export default {
       email: '',
       password: '',
       default_is_admin:false,
-      is_admin:false
+      is_admin:false,
+      is_admin_disabled_reminder:''
     };
   },
   methods: {
@@ -52,7 +53,7 @@ export default {
         .then((resp) => resp.json())
         .then((data) => {
             console.log(data);
-             this.$router.push('/'); 
+             this.$router.push('/login'); 
         })
         .catch((error) => {
             console.log(error);
@@ -65,6 +66,9 @@ export default {
   mounted(){
     if(sessionStorage.admin=='true'){
       this.is_admin=true
+    }
+    if(sessionStorage.admin!='true'){
+      this.is_admin_disabled_reminder = '- DISABLED'
     }
   }
 

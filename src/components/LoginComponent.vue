@@ -9,7 +9,7 @@
         <input class="login-input" type="password" required v-model="password">
         <button type="submit" class="btn btn-primary login-btn" v-on:click="push">Submit</button>
       </form>
-      <p class="token">{{ returned_token }}</p>
+      
       <p class="signup-link">Don't have an account? <router-link to="/signup">Sign up</router-link></p>
     </div>
   </div>
@@ -36,11 +36,14 @@ export default {
         const val_id = data['id']
         sessionStorage.setItem('token',val_token);
         sessionStorage.setItem('id',val_id)
-        this.$router.push('/')
+        this.$router.back()
+        
       },
 
       err_handle(data){
         console.log(data)
+        alert("Invalid User")
+        sessionStorage.clear()
         this.$router.go('/login')
       },
 
