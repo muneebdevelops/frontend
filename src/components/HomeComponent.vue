@@ -18,8 +18,8 @@
         <h3 class="event-name">{{ event.event_name }}</h3>
         <p class="event-description">{{ event.description }}</p>
         <div class="event-details">
-          <p><strong>Date:</strong> {{ formatMyDate(event.start_date) }} _ {{formatMyDate(event.end_date) }}</p>
-          <p><strong>Time:</strong> {{ formatMyTime(event.start_date) }} _ {{ formatMyTime(event.end_date) }}</p>
+          <p><strong>Date:</strong> {{ formatMyDate(event.start_date) }} - {{formatMyDate(event.end_date) }}</p>
+          <p><strong>Time:</strong> {{ formatMyTime(event.start_date) }} - {{ formatMyTime(event.end_date) }}</p>
           <p><strong>Audience:</strong> {{ event.audience_type }}</p>
           <p><strong>Guest:</strong> {{ event.guest ? event.guest : 'None' }}</p> 
           <p><strong>Status:</strong> {{ event.status === 0 ? 'Inactive' : event.status === 2 ? 'Rejected':'Active' }}</p>
@@ -70,7 +70,8 @@ export default {
       return date.split(' ')[0];
     },
     formatMyTime(date) {
-      return date.split(' ')[1];
+      const ndate = new Date(date).toLocaleTimeString('en-US',{hour12:true})
+      return ndate
     },
     getAllEvents() {
       let apiUrl = "http://127.0.0.1:5000/public/event-listing?";

@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-navy">
-    <router-link class="navbar-brand text-style" to="/">FCC Event Management System</router-link>
+    <router-link id="toptext" class="navbar-brand text-style" to="/">FCC Event Management System</router-link>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav ms-auto">
         <router-link class="btn btn-skyblue" to="/">Home</router-link>
@@ -81,7 +81,7 @@ export default {
   background-color: skyblue !important;
   margin-right: 20px;
   width: 120px;
-  height: 45px;
+  height: 43px;
   margin-left: 5px;
   margin-top: 10px;
 }
@@ -106,6 +106,9 @@ export default {
   width: 50px;
   cursor: pointer;
   padding:10px;
+  margin-left: 10px;
+}
+#toptext{
   margin-left: 10px;
 }
 </style>
