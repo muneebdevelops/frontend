@@ -1,6 +1,6 @@
 <template>
-  <div id="token"><label>welcome, {{ user }} {{ login_reminder }} </label></div>
-  <div id="logout"><button v-show="bool_show_logout" type="button" class="btn btn-secondary" @click="logout">Logout</button></div>
+  <div id="token" hidden><label>welcome, {{ user }} {{ login_reminder }} </label></div>
+  <div id="logout" hidden><button v-show="bool_show_logout" type="button" class="btn btn-secondary" @click="logout">Logout</button></div>
   <div class="event-list">
     <h2><b>ALL EVENTS</b></h2>
     <br>

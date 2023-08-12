@@ -1,6 +1,6 @@
 <template>
-  <div id="token"><label>welcome, {{ user }} - admin: {{ admin }}</label></div>
-  <div id="logout"><button v-show="bool_show_logout" type="button" class="btn btn-secondary" @click="logout">Logout</button></div>
+  <div id="token"><label>admin: {{ admin }}</label></div>
+  <div id="logout" hidden><button v-show="bool_show_logout" type="button" class="btn btn-secondary" @click="logout">Logout</button></div>
   <div v-show="admin">
     <button @click="showAddPlaceModal">Add Place</button>
     <br>
@@ -447,7 +447,7 @@ h2 {
   margin-left: 8px;
 }
 #token {
-  text-align: right;
+  text-align: left;
   padding: 10px;
   background-color: #f5f5f5;
   border: 1px solid #ddd;

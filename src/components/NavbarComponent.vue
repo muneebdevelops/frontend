@@ -1,18 +1,18 @@
 <template>
-      <p class="token">{{ returned_token }}</p>
   <nav class="navbar navbar-expand-lg navbar-light bg-navy">
     <router-link class="navbar-brand text-style" to="/">FCC Event Management System</router-link>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav ms-auto">
         <router-link class="btn btn-skyblue" to="/">Home</router-link>
         <router-link class="btn btn-skyblue" to="/create">Create Event</router-link>
+        <router-link v-if="is_admin" class="btn btn-skyblue" to="/signup">Signup</router-link>
         <router-link v-if="is_admin" class="btn btn-skyblue" to="/admin">Admin</router-link>
         <router-link v-if="!is_authenticated" class="btn btn-skyblue" to="/login">Login</router-link>
      
         <div v-if="is_authenticated" class="user-info">
-          <span class="username">{{ user }}</span>
-          <img class="logout-icon" src="public\logout-icon.png" alt="Logout" @click="logout" />
+          <label id="username">welcome, {{ user }} {{ login_reminder }}</label>
         </div>
+        <div id="logout"><button v-show="loggedin" type="button" class="btn btn-secondary" @click="logout">Logout</button></div>
       </div>
     </div>
   </nav>
@@ -23,9 +23,10 @@ export default {
   data() {
     return {
       token: sessionStorage.token,
-      user:'name',
-      is_admin:'is_admin', // Set this to your actual admin check logic
-      is_authenticated: sessionStorage.token ? false : true, // Set this to your actual authentication check logic
+      user:'user',
+      loggedin:false,
+      is_admin:'', // Set this to your actual admin check logic
+      is_authenticated: sessionStorage.token ? true : false, // Set this to your actual authentication check logic
       // username: data['name']// Set the logged-in user's name here
     };
   },
@@ -35,6 +36,8 @@ export default {
         this.user = data['name'];
         const val_admin = data['is_admin']
         sessionStorage.setItem('admin',val_admin);
+        this.is_admin=val_admin
+        this.loggedin=true
       },
 
     getUser(token){
@@ -48,16 +51,8 @@ export default {
         .then(data => (this.session_add(data["data"])))
     },
     logout() {
-      // Add your logout logic here
-       const id_param=sessionStorage.id
-      const request = {
-              method: "GET",
-              headers: { "Content-Type": "application/json" },
-          };
-      fetch('http://127.0.0.1:5000/user/logout?'+ new URLSearchParams({id:id_param}), request)
-        .then(response => response.json())
-        .then(data => (console.log(data["data"])))
-        this.$router.push('/login'); 
+      sessionStorage.clear()
+      this.$router.go('/')
     },
   },
   mounted(){
@@ -67,9 +62,6 @@ export default {
     }else{
       this.token = 'user'
     }
-  },
-  created() {
-    this.username = sessionStorage.getItem('name');
   }
 };
 </script>
@@ -87,17 +79,19 @@ export default {
 
 .btn-skyblue {
   background-color: skyblue !important;
-  margin-right: 10px;
+  margin-right: 20px;
   width: 120px;
+  height: 45px;
   margin-left: 5px;
+  margin-top: 10px;
 }
 
 .user-info {
-  display: flex;
-  align-items: center;
-  margin-left: 80px; /* Adjust the margin as needed */
+  display:inline-flex;
+  align-items:center;
+  margin-left: 50px; /* Adjust the margin as needed */
   color: white;
-  white-space: nowrap; /* Prevent text from wrapping */
+  white-space:nowrap; /* Prevent text from wrapping */
 }
 
 .username {
@@ -107,10 +101,12 @@ export default {
   text-overflow: ellipsis; /* Show ellipsis if the text overflows */
 }
 
-.logout-icon {
+#logout{
   margin-right: 60px;
   width: 50px;
   cursor: pointer;
+  padding:10px;
+  margin-left: 10px;
 }
 </style>
 

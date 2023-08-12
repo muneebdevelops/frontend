@@ -1,6 +1,6 @@
 <template>
-  <div id="token"><label>welcome, {{ user }}</label></div>
-  <div id="logout"><button v-show="bool_show_logout" type="button" class="btn btn-secondary" @click="logout">Logout</button></div>
+  <div id="token" hidden><label>welcome, {{ user }}</label></div>
+  <div id="logout" hidden><button v-show="bool_show_logout" type="button" class="btn btn-secondary" @click="logout">Logout</button></div>
   <div class="place-details">
     <div v-for="place in placeData" :key="place.id" class="place-card">
       <h2>{{ place.place_name }}</h2>
@@ -11,8 +11,8 @@
       <p><strong>Air Conditioner:</strong> {{ place.air_conditioner }}</p>
       <p><strong>Projector:</strong> {{ place.projector }}</p>
       <p><strong>Sound System:</strong> {{ place.sound_system }}</p>
-      <p><strong>Created At:</strong> {{ place.created_at }}</p>
-      <p><strong>Modified At:</strong> {{ place.modified_at }}</p>
+      <p hidden><strong>Created At:</strong> {{ place.created_at }}</p>
+      <p hidden><strong>Modified At:</strong> {{ place.modified_at }}</p>
       <button @click="requestEvent(place)">Request Event</button>
     </div>
 
@@ -69,6 +69,7 @@ export default {
         guest: "",
         audience_type: "",
         place_id: null,
+        user_id:""
       },
       token: sessionStorage.token,
       user:'user',
@@ -122,6 +123,7 @@ export default {
         guest: this.eventData.guest,
         audience_type: this.eventData.audience_type,
         place_id: this.eventData.place_id,
+        user_id:sessionStorage.getItem('id')
       };
 
       fetch(apiUrl, {

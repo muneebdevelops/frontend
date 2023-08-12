@@ -53,7 +53,8 @@ export default {
         .then((resp) => resp.json())
         .then((data) => {
             console.log(data);
-             this.$router.push('/login'); 
+            alert(data["message"])
+             this.$router.back(); 
         })
         .catch((error) => {
             console.log(error);
