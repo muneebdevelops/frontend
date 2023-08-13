@@ -1,8 +1,13 @@
 <template>
   <div id="token" hidden><label>welcome, {{ user }}</label></div>
   <div id="logout" hidden><button v-show="bool_show_logout" type="button" class="btn btn-secondary" @click="logout">Logout</button></div>
+  
+  <div id="filterOptions">
+  <input id="searchbar" type="text" placeholder="Filter by Name" v-model="searchterm_place_name">
+  </div>
+
   <div class="place-details">
-    <div v-for="place in placeData" :key="place.id" class="place-card">
+    <div v-for="place in filteredplaces" :key="place.id" class="place-card">
       <h2>{{ place.place_name }}</h2>
       <p><strong>Description:</strong> {{ place.description }}</p>
       <p><strong>Audience Capacity:</strong> {{ place.audience_capacity }}</p>
@@ -74,7 +79,8 @@ export default {
       token: sessionStorage.token,
       user:'user',
       admin:'N/A',
-      bool_show_logout: false
+      bool_show_logout: false,
+      searchterm_place_name:''
     };
   },
   methods: {
@@ -163,6 +169,9 @@ export default {
       fetch('http://127.0.0.1:5000/user?'+ new URLSearchParams({id:id_param}), request)
         .then(response => response.json())
         .then(data => (this.session_add(data["data"])))
+        .catch((error)=>{
+          console.log(error)
+        })
     },
 
     logout(){
@@ -183,6 +192,14 @@ export default {
     }else{
       this.token = 'user'
       this.$router.push('/login')
+    }
+  },
+
+  computed:{
+    filteredplaces: function(){
+      return this.placeData.filter((place)=>{
+        return place.place_name.match(this.searchterm_place_name)
+      })
     }
   }
 
@@ -280,5 +297,12 @@ export default {
 .popup-form button[type="cancel"]:hover,
 .popup-form button[type="cancel"]:focus {
   background-color: #C82333;
+}
+
+#searchbar{
+  margin-left: 42px;
+  margin-top: 10px;
+  margin-right: 10px;
+  width: 500px;
 }
 </style>
