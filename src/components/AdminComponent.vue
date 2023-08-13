@@ -19,6 +19,7 @@
       <table class="place-table">
         <thead>
           <tr>
+            <th></th>
             <th>Name</th>
             <th>Description</th>
             <th>Place</th>
@@ -31,6 +32,9 @@
         </thead>
         <tbody>
           <tr v-for="place in places.pending" :key="place.id" class="place-row">
+            <td class="place-buttons">
+              <button @click="deletePlace(place.id)">Delete</button>
+            </td>
             <td>{{ place.event_name }}</td>
             <td>{{ place.description }}</td>
             <td>{{ place.place.place_name }}</td>
@@ -51,6 +55,7 @@
       <table class="place-table">
         <thead>
           <tr>
+            <th></th>
             <th>Name</th>
             <th>Description</th>
             <th>Place</th>
@@ -63,6 +68,9 @@
         </thead>
         <tbody>
           <tr v-for="place in places.approved" :key="place.id" class="place-row">
+            <td class="place-buttons">
+              <button @click="deletePlace(place.id)">Delete</button>
+            </td>
             <td>{{ place.event_name }}</td>
             <td>{{ place.description }}</td>
             <td>{{ place.place.place_name }}</td>
@@ -78,6 +86,7 @@
       <table class="place-table">
         <thead>
           <tr>
+            <th></th>
             <th>Name</th>
             <th>Description</th>
             <th>Place</th>
@@ -90,6 +99,9 @@
         </thead>
         <tbody>
           <tr v-for="place in places.rejected" :key="place.id" class="place-row">
+            <td class="place-buttons">
+              <button @click="deletePlace(place.id)">Delete</button>
+            </td>
             <td>{{ place.event_name }}</td>
             <td>{{ place.description }}</td>
             <td>{{ place.place.place_name }}</td>
@@ -237,6 +249,28 @@ export default {
         });
       console.log(placeId)
     },
+
+    deletePlace(placeId) {
+        let event_id = placeId
+         let apiUrl = `http://127.0.0.1:5000/admin/delete?`+new URLSearchParams({id:event_id});
+        
+        fetch(apiUrl, {
+            method: "DELETE",
+            headers: {
+            "Content-Type": "application/json",
+           "Authorization": "Bearer"+" "+this.token,
+            },
+        })
+        .then((resp) => resp.json())
+        .then((data) => {
+            console.log(data);
+            alert(data["message"])
+             this.fetchPlaces(this.currentTab);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+      },
     showAddPlaceModal() {
       this.showModal = true;
     },
