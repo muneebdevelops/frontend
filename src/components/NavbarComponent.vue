@@ -12,7 +12,7 @@
         <div v-if="is_authenticated" class="user-info">
           <label id="username">welcome, {{ user }} {{ login_reminder }}</label>
         </div>
-        <div id="logout"><button v-show="loggedin" type="button" class="btn btn-secondary" @click="logout">Logout</button></div>
+        <div v-if="loggedin" id="logout"><button v-show="loggedin" type="button" class="btn btn-secondary" @click="logout">Logout</button></div>
       </div>
     </div>
   </nav>
@@ -48,7 +48,10 @@ export default {
           };
       fetch('http://127.0.0.1:5000/user?'+ new URLSearchParams({id:id_param}), request)
         .then(response => response.json())
-        .then(data => (this.session_add(data["data"])))
+        .then(data => {
+          this.session_add(data["data"]);
+        })
+        .catch(()=>(alert("Session Expired! Login")))
     },
     logout() {
       sessionStorage.clear()
@@ -106,10 +109,12 @@ export default {
   width: 50px;
   cursor: pointer;
   padding:10px;
-  margin-left: 10px;
 }
 #toptext{
   margin-left: 10px;
+}
+#username{
+  margin-right: 10px;
 }
 </style>
 
