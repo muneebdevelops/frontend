@@ -7,7 +7,7 @@
   <div class="event-list">
     <br>
     <div>
-      <label id="h22">ALL EVENTS</label>
+      <button id="h22" class="btn btn-skyblue bordered-button" @click="getAllEvents">ALL EVENTS</button>
       <div class="button-container">
         <button id="userEvent"  v-if="is_authenticated" class="btn btn-skyblue bordered-button" @click="handleMyEventsClick">My Events</button>
       </div>
@@ -120,7 +120,7 @@ export default {
         apiUrl += `endDate=${this.formatDate(new Date(this.endDate))}&`;
       }
       apiUrl += "orderByColumn=&order=asc";
-      apiUrl += "&status=1"
+
       apiUrl += `&userId=${sessionStorage.id}`
       
        
@@ -204,7 +204,7 @@ export default {
 #h22 {
   color: white !important;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif IM !important;
-  font-size: 20px;
+  font-size: 16px;
   margin-bottom: 20px;
 }
 .button-container {
