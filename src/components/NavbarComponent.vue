@@ -52,7 +52,10 @@ export default {
           };
       fetch('http://127.0.0.1:5000/user?'+ new URLSearchParams({id:id_param}), request)
         .then(response => response.json())
-        .then(data => (this.session_add(data["data"])))
+        .then(data => {
+          this.session_add(data["data"]);
+        })
+        .catch(()=>(alert("Session Expired! Login")))
     },
     logout() {
       sessionStorage.clear()

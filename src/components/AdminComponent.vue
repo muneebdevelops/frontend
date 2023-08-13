@@ -264,7 +264,6 @@ export default {
         .then((resp) => resp.json())
         .then((data) => {
             console.log(data);
-            alert(data["message"])
              this.fetchPlaces(this.currentTab);
         })
         .catch((error) => {
@@ -302,6 +301,7 @@ export default {
         .then((resp) => resp.json())
         .then((data) => {
             console.log(data);
+            alert(data["message"])
              this.$router.push('/admin'); 
         })
         .catch((error) => {
