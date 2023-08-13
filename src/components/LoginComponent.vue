@@ -42,7 +42,7 @@ export default {
 
       err_handle(data){
         console.log(data)
-        alert(data["message"])
+        alert("Invalid User")
         sessionStorage.clear()
         this.$router.go('/login')
       },

@@ -34,12 +34,8 @@
     <label for="startDate">Start Date and Time:</label>
     <input type="datetime-local" id="startDate" v-model="eventData.start_date" required>
 
-    {{ eventData.start_date }}
-
     <label for="endDate">End Date and Time:</label>
     <input type="datetime-local" id="endDate" v-model="eventData.end_date" required>
-
-    {{ eventData.end_date }}
 
     <label for="guest">Guest:</label>
     <input type="text" id="guest" v-model="eventData.guest" required>

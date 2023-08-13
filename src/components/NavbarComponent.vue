@@ -5,7 +5,7 @@
       <div class="navbar-nav ms-auto">
         <router-link class="btn btn-skyblue" to="/">Home</router-link>
         <router-link class="btn btn-skyblue" to="/create">Create Event</router-link>
-        <router-link v-if="!is_authenticated" class="btn btn-skyblue" to="/signup">Signup</router-link>
+        <router-link v-if="is_admin" class="btn btn-skyblue" to="/signup">Signup</router-link>
         <router-link v-if="is_admin" class="btn btn-skyblue" to="/admin">Admin</router-link>
         <router-link v-if="!is_authenticated" class="btn btn-skyblue" to="/login">Login</router-link>
      
@@ -55,7 +55,10 @@ export default {
         .then(data => {
           this.session_add(data["data"]);
         })
-        .catch(()=>(alert("Session Expired! Login")))
+        .catch(data=>{
+          console.log(data);
+          alert(data["message"])
+        })
     },
     logout() {
       sessionStorage.clear()

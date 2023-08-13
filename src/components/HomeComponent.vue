@@ -32,7 +32,7 @@
           <p><strong>Time:</strong> {{ formatMyTime(event.start_date) }} - {{ formatMyTime(event.end_date) }}</p>
           <p><strong>Audience:</strong> {{ event.audience_type }}</p>
           <p><strong>Guest:</strong> {{ event.guest ? event.guest : 'None' }}</p> 
-          <p><strong>Status:</strong> {{ event.status === 0 ? 'Inactive' : event.status === 2 ? 'Rejected':'Active' }}</p>
+          <p><strong>Status:</strong> {{ event.status === 0 ? 'Pending' : event.status === 2 ? 'Rejected':'Approved' }}</p>
           <p><strong>Place:</strong> {{ event.place.place_name }}</p>
         </div>
 
