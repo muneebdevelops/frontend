@@ -82,7 +82,9 @@ export default {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #2c3e50; /* Cool background color */
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif IM !important;
+  background-color: #263d7e !important;  
+
 }
 
 .signup-form {

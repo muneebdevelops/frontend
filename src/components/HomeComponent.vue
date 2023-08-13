@@ -1,16 +1,26 @@
 <template>
+<div class="home-container">
   <div id="token" hidden><label>welcome, {{ user }} {{ login_reminder }} </label></div>
   <div id="logout" hidden><button v-show="bool_show_logout" type="button" class="btn btn-secondary" @click="logout">Logout</button></div>
+  
+    
   <div class="event-list">
-    <h2><b>ALL EVENTS</b></h2>
     <br>
+    <div>
+      <label id="h22">ALL EVENTS</label>
+      <div class="button-container">
+        <button id="userEvent"  v-if="is_authenticated" class="btn btn-skyblue bordered-button" @click="handleMyEventsClick">My Events</button>
+      </div>
+      
     <div class="filters">
       <label for="startDate">Start Date:</label>
       <input type="date" id="startDate" v-model="startDate" @change="filterEvents" />
-
       <label for="endDate">End Date:</label>
       <input type="date" id="endDate" v-model="endDate" @change="filterEvents" />
     </div>
+
+    </div>
+      
     <br>
 
     <div class="events">
@@ -42,6 +52,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -55,7 +66,8 @@ export default {
       user:'user',
       admin:'N/A',
       login_reminder: '',
-      bool_show_logout: false
+      bool_show_logout: false,
+      is_authenticated: sessionStorage.token ? true : false
       
     };
   },
@@ -98,6 +110,35 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+    handleMyEventsClick() {
+      let apiUrl = "http://127.0.0.1:5000/public/event-listing?";
+      if (this.startDate) {
+        apiUrl += `startDate=${this.formatDate(new Date(this.startDate))}&`;
+      }
+      if (this.endDate) {
+        apiUrl += `endDate=${this.formatDate(new Date(this.endDate))}&`;
+      }
+      apiUrl += "orderByColumn=&order=asc";
+      apiUrl += "&status=1"
+      apiUrl += `&userId=${sessionStorage.id}`
+      
+       
+      fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        },
+      })
+        .then((resp) => resp.json())
+        .then((data) => {
+          console.log(data);
+          this.allEvents = data.data.map(event => ({ ...event, showAdditionalInfo: false }));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      
     },
     filterEvents() {
       this.getAllEvents();
@@ -157,34 +198,63 @@ export default {
 </script>
 
 <style>
+.home-container {
+  background-color: #263d7e;
+}
+#h22 {
+  color: white !important;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif IM !important;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.button-container {
+  display: flex;
+  justify-content: flex-end; /* Align the button to the right */
+  /* padding: 10px; Add padding for spacing */
+}
 
+.bordered-button {
+  border: 2px solid white; /* Apply the border directly to the button */
+}
+.filters{
+  color: white;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif IM !important;
+  
+  
+}
 .event-list {
-  font-family: Arial, sans-serif;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif IM !important;
   padding: 20px;
 }
 
 .events {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   grid-gap: 20px;
 }
 
 .event-card {
-  border: 3px solid #ccc;
+  border: 5px solid white;
   border-radius: 5px;
   padding: 10px;
-  background-color: #f7f7f7;
-}
+  /* background-color: #f7f7f7; */
+  background-color: lightgrey
+  }
 
 .event-name {
   margin: 0;
   padding-bottom: 5px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 3px solid #ccc;
 }
 
 .event-description {
   font-style: italic;
   color: #666;
+  
 }
 
 .event-details {
@@ -196,7 +266,8 @@ export default {
 }
 
 .additional-info {
-  background-color: #f0f0f0;
+  /* background-color: #f0f0f0; */
+  background-color: lightgrey;
   border: 1px solid #ccc;
   padding: 10px;
   margin-top: 10px;

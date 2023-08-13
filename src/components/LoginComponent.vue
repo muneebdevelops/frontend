@@ -36,7 +36,7 @@ export default {
         const val_id = data['id']
         sessionStorage.setItem('token',val_token);
         sessionStorage.setItem('id',val_id)
-        this.$router.back()
+        this.$router.push('/')
         
       },
 
@@ -60,11 +60,6 @@ export default {
               .then(response => response.json())
               .then(data => (this.session_add(data["data"])))
               .catch(data => (this.err_handle(data)));
-              
-
-              
-        
-              
                 
       }
 
@@ -79,7 +74,8 @@ export default {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #2c3e50; /* Cool background color */
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif IM !important;
+  background-color: #263d7e !important;  
 }
 
 .login {
