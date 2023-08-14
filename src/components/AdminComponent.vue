@@ -486,7 +486,6 @@ h2 {
   background-color: #f5f5f5;
   border: 1px solid #ddd;
   border-radius: 5px;
-  margin-right: 20px;
   margin-top: 20px;
 }
 </style>
