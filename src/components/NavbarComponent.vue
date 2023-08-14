@@ -102,7 +102,8 @@ export default {
 .user-info {
   display:inline-flex;
   align-items:center;
-  margin-left: 60px;
+  margin-left: 50px;
+  margin-right: 10px;
   color: #263d7e;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif IM !important;
   font-size: 16px !important;
