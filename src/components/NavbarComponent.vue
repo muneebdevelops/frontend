@@ -7,13 +7,13 @@
         <router-link class="btn btn-skyblue" to="/create">Create Event</router-link>
         <router-link v-if="is_admin" class="btn btn-skyblue" to="/signup">Signup</router-link>
         <router-link v-if="is_admin" class="btn btn-skyblue" to="/admin">Admin</router-link>
-        <router-link v-if="!is_authenticated" class="btn btn-skyblue" to="/login">Login</router-link>
+        <router-link v-if="!is_authenticated&&loggedin" class="btn btn-skyblue" to="/login">Login</router-link>
      
         <div v-if="is_authenticated" class="user-info">
           <label id="username">welcome, {{ user }} {{ login_reminder }}</label>
         </div>
         <!-- <div id="logout"><button v-show="loggedin" type="button" class="btn btn-secondary" @click="logout" :style="{ background: logoutColor }">Logout</button></div> -->
-        <div id="logout">
+        <div v-if="loggedin" id="logout">
           <img v-show="loggedin" src="@/assets/logout-red.png" @click="logout" id="logout-image" />
         </div>
       </div>
