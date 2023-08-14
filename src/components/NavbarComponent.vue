@@ -117,7 +117,7 @@ export default {
   text-overflow: ellipsis; /* Show ellipsis if the text overflows */
 }
 
-#logout {
+logout {
   margin-right: 60px;
   cursor: pointer;
   padding: 10px;
@@ -131,6 +131,7 @@ export default {
   width: 40px; /* Set the width of the image */
   height: 40px; /* Set the height of the image */
   margin-right: 10px; /* Adjust margin as needed */
+  margin-top: 5px;
 }
 
 
