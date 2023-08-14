@@ -112,6 +112,8 @@ export default {
         });
     },
     handleMyEventsClick() {
+      this.startDate=''
+      this.endDate=''
       let apiUrl = "http://127.0.0.1:5000/public/event-listing?";
       if (this.startDate) {
         apiUrl += `startDate=${this.formatDate(new Date(this.startDate))}&`;
