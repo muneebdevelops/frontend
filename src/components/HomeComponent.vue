@@ -7,7 +7,7 @@
   <div class="event-list">
     <br>
     <div>
-      <button id="h22" class="btn btn-skyblue bordered-button" @click="getAllEvents">ALL EVENTS</button>
+      <button id="h22" class="btn btn-skyblue bordered-button" @click="getAllEventsNotFilter">ALL EVENTS</button>
       <div class="button-container">
         <button id="userEvent"  v-if="is_authenticated" class="btn btn-skyblue bordered-button" @click="handleMyEventsClick">My Events</button>
       </div>
@@ -149,6 +149,30 @@ export default {
       const month = `${date.getMonth() + 1}`.padStart(2, "0");
       const day = `${date.getDate()}`.padStart(2, "0");
       return `${year}-${month}-${day}`;
+    },
+
+    getAllEventsNotFilter() {
+      this.startDate=''
+      this.endDate=''
+      let apiUrl = "http://127.0.0.1:5000/public/event-listing?";
+
+      apiUrl += "orderByColumn=&order=asc";
+      apiUrl += "&status=1"
+       
+      fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        },
+      })
+        .then((resp) => resp.json())
+        .then((data) => {
+          console.log(data);
+          this.allEvents = data.data.map(event => ({ ...event, showAdditionalInfo: false }));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
 
     session_add(data){
