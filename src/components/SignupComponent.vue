@@ -38,7 +38,7 @@ export default {
         name: this.username,
         email: this.email,
         password: this.password,
-        is_admin: this.is_admin
+        is_admin: this.default_is_admin
       };
 
       try {
@@ -54,7 +54,7 @@ export default {
         .then((data) => {
             console.log(data);
             alert(data["message"])
-             this.$router.back(); 
+             this.$router.push('/login'); 
         })
         .catch((error) => {
             console.log(error);

@@ -36,7 +36,7 @@ export default {
         const val_id = data['id']
         sessionStorage.setItem('token',val_token);
         sessionStorage.setItem('id',val_id)
-        this.$router.back()
+        this.$router.push('/')
         
       },
 

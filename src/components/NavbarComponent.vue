@@ -5,9 +5,9 @@
       <div class="navbar-nav ms-auto">
         <router-link class="btn btn-skyblue" to="/">Home</router-link>
         <router-link class="btn btn-skyblue" to="/create">Create Event</router-link>
-        <router-link v-if="!is_authenticated" class="btn btn-skyblue" to="/signup">Signup</router-link>
+        <router-link v-if="is_admin" class="btn btn-skyblue" to="/signup">Signup</router-link>
         <router-link v-if="is_admin" class="btn btn-skyblue" to="/admin">Admin</router-link>
-        <router-link v-if="!is_authenticated&&!loggedin" class="btn btn-skyblue" to="/login">Login</router-link>
+        <router-link v-if="!loggedin" class="btn btn-skyblue" to="/login">Login</router-link>
      
         <div v-if="is_authenticated" class="user-info">
           <label id="username">welcome, {{ user }} {{ login_reminder }}</label>

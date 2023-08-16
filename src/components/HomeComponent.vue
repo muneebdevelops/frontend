@@ -93,7 +93,7 @@ export default {
       if (this.endDate) {
         apiUrl += `endDate=${this.formatDate(new Date(this.endDate))}&`;
       }
-      apiUrl += "orderByColumn=&order=asc";
+      apiUrl += "orderByColumn=start_date&order=asc";
       apiUrl += "&status=1"
        
       fetch(apiUrl, {
@@ -112,8 +112,6 @@ export default {
         });
     },
     handleMyEventsClick() {
-      this.startDate=''
-      this.endDate=''
       let apiUrl = "http://127.0.0.1:5000/public/event-listing?";
       if (this.startDate) {
         apiUrl += `startDate=${this.formatDate(new Date(this.startDate))}&`;
@@ -121,7 +119,7 @@ export default {
       if (this.endDate) {
         apiUrl += `endDate=${this.formatDate(new Date(this.endDate))}&`;
       }
-      apiUrl += "orderByColumn=&order=asc";
+      apiUrl += "orderByColumn=start_date&order=asc";
 
       apiUrl += `&userId=${sessionStorage.id}`
       
