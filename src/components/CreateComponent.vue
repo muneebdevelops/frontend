@@ -4,6 +4,32 @@
   
   <div id="filterOptions">
   <input id="searchbar" type="text" placeholder="Filter by Name" v-model="searchterm_place_name">
+  <button v-if="adminchk" id="addplacebutton" class="btn btn-warning" @click="showAddPlaceModal">Add Place</button>
+  </div>
+
+  <div v-if="showModal" class="popup-form">
+    <form id="addplaceform" @submit.prevent="addPlace">
+    <div class="modal-content">
+      <h2>Add Place</h2>
+      <input v-model="newPlaceName" class="input-field" placeholder="Place Name" />
+      <input v-model="newPlaceDescription" class="input-field" placeholder="Place Description" />
+      <input v-model="newPlaceCapacity" class="input-field" type="number" placeholder="Audience Capacity" />
+      <label class="checkbox-label">
+        <input v-model="newPlaceAirConditioner" type="checkbox" /> Air Conditioner
+      </label>
+      <label class="checkbox-label">
+        <input v-model="newPlaceProjector" type="checkbox" /> Projector
+      </label>
+      <label class="checkbox-label">
+        <input v-model="newPlaceSoundSystem" type="checkbox" /> Sound System
+      </label>
+      <input v-model="newPlaceLatitude" class="input-field" type="number" step="0.0001" placeholder="Latitude" />
+      <input v-model="newPlaceLongitude" class="input-field" type="number" step="0.0001" placeholder="Longitude" />
+      <button type="submit" class="action-button">Add</button>
+      <br>
+      <button @click="closeAddPlaceModal" class="action-button">Cancel</button>
+    </div>
+    </form>
   </div>
 
   <div class="place-details">
@@ -56,6 +82,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -75,8 +102,18 @@ export default {
       token: sessionStorage.token,
       user:'user',
       admin:'N/A',
+      adminchk:false,
       bool_show_logout: false,
-      searchterm_place_name:''
+      searchterm_place_name:'',
+      showModal: false,
+      newPlaceName: '',
+      newPlaceDescription: '',
+      newPlaceCapacity: null,
+      newPlaceAirConditioner: false,
+      newPlaceProjector: false,
+      newPlaceSoundSystem: false,
+      newPlaceLatitude: null,
+      newPlaceLongitude: null
     };
   },
   methods: {
@@ -154,6 +191,7 @@ export default {
         const val_admin = data['is_admin']
         sessionStorage.setItem('admin',val_admin);
         this.admin = sessionStorage.admin
+        this.adminchk = val_admin
       },
 
     getUser(token){
@@ -173,7 +211,47 @@ export default {
     logout(){
       sessionStorage.clear()
       this.$router.push('/login')
-    }
+    },
+
+    showAddPlaceModal() {
+      this.showModal = true;
+    },
+    closeAddPlaceModal() {
+      this.showModal = false;
+      this.newPlaceName = "";
+    },
+    addPlace() {
+      // Call your API to add a new place and update the UI accordingly
+      let url = `http://127.0.0.1:5000/admin/place`
+      const newPlace = {
+        place_name: this.newPlaceName,
+        description: this.newPlaceDescription,
+        audience_capacity: this.newPlaceCapacity,
+        air_conditioner: this.newPlaceAirConditioner,
+        projector: this.newPlaceProjector,
+        sound_system: this.newPlaceSoundSystem,
+        latitude: this.newPlaceLatitude,
+        longitude: this.newPlaceLongitude,
+      };
+         fetch(url, {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+           "Authorization": "Bearer"+" "+this.token,
+            },
+            body: JSON.stringify(newPlace),
+        })
+        .then((resp) => resp.json())
+        .then((data) => {
+            console.log(data);
+            this.getAllPlaces() 
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+      this.closeAddPlaceModal();
+    }, 
 
   },
   created() {
@@ -301,4 +379,16 @@ export default {
   margin-right: 10px;
   width: 500px;
 }
+
+.modal-content button{
+  margin-bottom: 10px;
+}
+
+#addplacebutton{
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+
+
 </style>

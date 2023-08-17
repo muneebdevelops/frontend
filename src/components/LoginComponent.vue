@@ -36,7 +36,12 @@ export default {
         const val_id = data['id']
         sessionStorage.setItem('token',val_token);
         sessionStorage.setItem('id',val_id)
-        this.$router.push('/')
+        if (val_token.startsWith('admin')){
+          this.$router.push('/admin')
+        }else{
+          this.$router.push('/')
+        }
+        
         
       },
 

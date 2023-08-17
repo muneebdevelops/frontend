@@ -2,7 +2,7 @@
   <div id="token"><label>admin: {{ admin }}</label></div>
   <div id="logout" hidden><button v-show="bool_show_logout" type="button" class="btn btn-secondary" @click="logout">Logout</button></div>
   <div v-show="admin">
-    <button @click="showAddPlaceModal">Add Place</button>
+    <button v-if="notshowever" @click="showAddPlaceModal">Add Place</button>
     <br>
     <br>
     <div class="tabs">
@@ -172,6 +172,7 @@ export default {
       newPlaceSoundSystem: false,
       newPlaceLatitude: null,
       newPlaceLongitude: null,
+      notshowever: false
     };
   },
   methods: {
