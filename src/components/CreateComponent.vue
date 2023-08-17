@@ -356,7 +356,7 @@ export default {
 
 .popup-form button[type="submit"] {
   background-color: #28A745;
-  margin-right: 10px;
+  
 }
 
 .popup-form button[type="submit"]:hover,
@@ -385,8 +385,13 @@ export default {
 }
 
 #addplacebutton{
-  margin-right: 10px;
-  margin-left: 10px;
+  background-color: #263d7e !important;
+  color: white !important;
+  margin-right: 20px;
+  width: 120px;
+  border-color: #263d7e;
+  margin-left: 800px;
+  margin-bottom: 5px;
 }
 
 
