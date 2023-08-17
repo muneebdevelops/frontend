@@ -1,7 +1,8 @@
 <template>
   <div class="signup-container">
     <form @submit.prevent="signup" class="signup-form">
-      <h2 class="signup-title">Signup</h2>
+      <h2 v-if="!is_admin" class="signup-title">Signup</h2>
+      <h2 v-if="is_admin" class="signup-title">Create User</h2>
       <label for="username" class="signup-label">Name:</label>
       <input type="text" v-model="username" required class="signup-input">
       
